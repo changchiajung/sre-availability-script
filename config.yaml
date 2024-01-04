@@ -1,0 +1,5 @@
+running_period: 15
+accept:
+  status_code: '2XX'
+  response_limit: 500
+
