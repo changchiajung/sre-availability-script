@@ -23,17 +23,9 @@
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -49,7 +41,7 @@ To maximize the usage of this tools, we designed these configuration file that c
 
 - inputfile (e.g. sample.yaml):
   - A yaml file that contains various HTTP endpoints.
-  - Each HTTP endpoint element in the YAML list has the following schema:
+  <!-- - Each HTTP endpoint element in the YAML list has the following schema:
     - **name (string, required)** — A free-text name to describe the HTTP endpoint.
     - **url (string, required)** — The URL of the HTTP endpoint.
       - You may assume that the URL is always a valid HTTP or HTTPS address.
@@ -61,7 +53,7 @@ To maximize the usage of this tools, we designed these configuration file that c
       - If this field is omitted, no headers need to be added to or modified in the HTTP request.
     - **body (string, optional)** — The HTTP body to include in the request.
       - If this field is present, you should assume it's a valid JSON-encoded string. You do not need to account for non-JSON request bodies.
-      - If this field is omitted, no body is sent in the request.
+      - If this field is omitted, no body is sent in the request. -->
 - configfile (e.g. config.yaml):
   - A yaml file that contains the configuration of this automation tool.
   - Available configuration:
