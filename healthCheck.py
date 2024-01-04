@@ -69,7 +69,7 @@ if __name__ == "__main__":
     if args.outputfile == "None":
         handler_info = logging.StreamHandler(sys.stdout)
     else:
-        handler_info = logging.FileHandle(args.outputfile)
+        handler_info = logging.FileHandler(args.outputfile)
 
     handler_info.setLevel(logging.INFO)
     handler_info.setFormatter(formatter)

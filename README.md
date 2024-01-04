@@ -1,7 +1,9 @@
 <a name="readme-top"></a>
 
+[![LinkedIn][linkedin-shield]][linkedin-url]
 <h3 align="center">HTTP Endpoints Health Check tool</h3>
 
+<div>
   <p align="center">
     A configurable tool for checking HTTP endpoints' health.
     <br />
@@ -39,22 +41,39 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+To acquire the availability of the web service, it is useful to send multiple HTTP requests to various HTTP endpoints and check the connection status. However, it is time-consuming to repeat this work manually.
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+In this project, we build a configurable tool that can automatically send HTTP requests to designed HTTP endpoints periodically and calculate the cumulative availability percentage for each domain.
+
+To maximize the usage of this tools, we designed these configuration file that can be modified or extended.
+
+- inputfile (e.g. sample.yaml):
+  - A yaml file that contains various HTTP endpoints.
+  - Each HTTP endpoint element in the YAML list has the following schema:
+    - **name (string, required)** — A free-text name to describe the HTTP endpoint.
+    - **url (string, required)** — The URL of the HTTP endpoint.
+      - You may assume that the URL is always a valid HTTP or HTTPS address.
+    - **method (string, optional)** — The HTTP method of the endpoint.
+      - If this field is present, you may assume it’s a valid HTTP method (e.g. GET, POST, etc.).
+      - If this field is omitted, the default is GET.
+    - **headers (dictionary, optional)** — The HTTP headers to include in the request.
+      - If this field is present, you may assume that the keys and values of this dictionary are strings that are valid HTTP header names and values.
+      - If this field is omitted, no headers need to be added to or modified in the HTTP request.
+    - **body (string, optional)** — The HTTP body to include in the request.
+      - If this field is present, you should assume it's a valid JSON-encoded string. You do not need to account for non-JSON request bodies.
+      - If this field is omitted, no body is sent in the request.
+- configfile (e.g. config.yaml):
+  - A yaml file that contains the configuration of this automation tool.
+  - Available configuration:
+    - running_period: The period between availability test.
+    - accept: The acceptance criteria of the connection.
+      - response_limit: The limit of response time (ms).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
-- [![Next][Next.js]][Next-url]
-- [![React][React.js]][React-url]
-- [![Vue][Vue.js]][Vue-url]
-- [![Angular][Angular.io]][Angular-url]
-- [![Svelte][Svelte.dev]][Svelte-url]
-- [![Laravel][Laravel.com]][Laravel-url]
-- [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-- [![JQuery][JQuery.com]][JQuery-url]
+- [![Python][python-shield]][python-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -62,77 +81,51 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To use this tool, it will need an environment that are able to run python script and installed with required python packages.
 
-### Prerequisites
+### Run on local machine
 
-This is an example of how to list things you need to use the software and how to install them.
+#### Prerequisites
 
-- npm
-  ```sh
-  npm install npm@latest -g
+- Python3 +
+
+#### Install the required packages
+
+- ```bash
+   pip3 install -r requirements.txt
   ```
 
-### Installation
+#### Usage
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
-   ```
+##### Run without the parameter, used sample.yaml as input and logging on stdout
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+- ```bash
+   python3 healthCheck.py
+  ```
 
-<!-- USAGE EXAMPLES -->
+##### Run with the parameter, used inputfile as input and logging in outputfile
 
-## Usage
+- ```bash
+    python3 healthCheck.py --inputfile ${inputfile} --configfile ${configfile} --outputfile ${outputfile}
+  ```
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Run with Docker container
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+Replace the health_check with the image name you would like to used.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Build the image from the Dockerfile
 
-<!-- ROADMAP -->
+- ```bash
+    docker build -t health_check .
+  ```
 
-## Roadmap
+Run a container with the image created by previous command, then the script will run the tool automatically.
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-  - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+- ```bash
+    docker run health_check
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LICENSE -->
 
 ## License
 
@@ -144,51 +137,15 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Chia-Jung - https://www.linkedin.com/in/chiajungchang-ron/ - rabbit20058@gmail.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-- []()
-- []()
-- []()
+Profile Link: [https://changchiajung.github.io/](https://changchiajung.github.io/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
+[linkedin-url]: https://www.linkedin.com/in/chiajungchang-ron/
+[python-shield]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
+[python-url]: https://www.python.org/
+[docker-shield]: https://img.shields.io/badge/docker-3670A0?style=for-the-badge&logo=docker&logoColor=ffdd54
+[docker-url]: https://www.docker.org/
