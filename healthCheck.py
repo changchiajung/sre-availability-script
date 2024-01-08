@@ -6,18 +6,28 @@ import logging
 import argparse
 
 
+class EndpointChecker:
+    def __init__(self, endpoint, accept_config, logger):
+        self.endpoint = endpoint
+        self.accept_config = accept_config
+        self.logger = logger
+        self.domain = self.endpoint['url'].split(".com/")[0]
+        self.availability = {'up': 0, 'total': 0}
+
+    def check_health(self):
+        try:
+            response = requests.request(self.endpoint.get('method', 'GET'), self.endpoint['url'],
+                                        headers=self.endpoint.get('headers'), data=self.endpoint.get('body'), timeout=self.accept_config['response_limit'] / 1000)
+            return response.status_code in range(200, 300)
+        except requests.RequestException:
+            self.logger.debug(
+                f"[HEALTH CHECK DOWN] Endpoint name: {self.endpoint['name']}")
+            return False
+
+
 def read_yaml(file_path):
     with open(file_path, 'r') as file:
         return yaml.safe_load(file)
-
-
-def check_health(endpoint, accept_config):
-    try:
-        response = requests.request(endpoint.get('method', 'GET'), endpoint['url'],
-                                    headers=endpoint.get('headers'), data=endpoint.get('body'), timeout=accept_config['response_limit'] / 1000)
-        return response.status_code in range(200, 300)
-    except requests.RequestException:
-        return False
 
 
 def main(args, logger):
@@ -26,16 +36,15 @@ def main(args, logger):
     domains = set([endpoint['url'].split(".com/")[0]
                   for endpoint in endpoints])
     availability = {domain: {'up': 0, 'total': 0} for domain in domains}
+    endpoint_checkers = [EndpointChecker(
+        endpoint, config['accept'], logger) for endpoint in endpoints]
+
     while True:
-        for endpoint in endpoints:
-            is_up = check_health(endpoint, config['accept'])
-            domain = endpoint['url'].split(".com/")[0]
-            availability[domain]['total'] += 1
+        for checker in endpoint_checkers:
+            is_up = checker.check_health()
             if is_up:
-                availability[domain]['up'] += 1
-            else:
-                logger.debug(
-                    f"[HEALTH CHECK DOWN] Endpoint name: {endpoint['name']}")
+                availability[checker.domain]["up"] += 1
+            availability[checker.domain]["total"] += 1
 
         for domain in domains:
             up_percentage = (
@@ -44,8 +53,7 @@ def main(args, logger):
                 f"{domain} has {up_percentage:.2f}% availability percentage")
 
         logger.info(
-            f"------------------------------------------------------------")
-
+            "------------------------------------------------------------")
         time.sleep(config['running_period'])
 
 
