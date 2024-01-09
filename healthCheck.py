@@ -4,6 +4,7 @@ import yaml
 import requests
 import logging
 import argparse
+from urllib.parse import urlparse
 
 
 def read_yaml(file_path):
@@ -15,7 +16,7 @@ def check_health(endpoint, accept_config):
     try:
         response = requests.request(endpoint.get('method', 'GET'), endpoint['url'],
                                     headers=endpoint.get('headers'), data=endpoint.get('body'), timeout=accept_config['response_limit'] / 1000)
-        return response.status_code in range(200, 300)
+        return 200 <= response.status_code < 300
     except requests.RequestException:
         return False
 
@@ -23,13 +24,13 @@ def check_health(endpoint, accept_config):
 def main(args, logger):
     endpoints = read_yaml(args.inputfile)
     config = read_yaml(args.configfile)
-    domains = set([endpoint['url'].split(".com/")[0]
-                  for endpoint in endpoints])
+    domains = set([urlparse(endpoint['url']).netloc
+                   for endpoint in endpoints])
     availability = {domain: {'up': 0, 'total': 0} for domain in domains}
     while True:
         for endpoint in endpoints:
             is_up = check_health(endpoint, config['accept'])
-            domain = endpoint['url'].split(".com/")[0]
+            domain = urlparse(endpoint['url']).netloc
             availability[domain]['total'] += 1
             if is_up:
                 availability[domain]['up'] += 1
