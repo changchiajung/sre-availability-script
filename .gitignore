@@ -114,3 +114,4 @@ dmypy.json
 .pyre/
 terraform/.terraform/
 terraform/.terraform*
+terraform/terraform.tfstate*

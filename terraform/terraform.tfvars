@@ -10,6 +10,6 @@ codebuild_params = {
 environment_variables = {
   "AWS_DEFAULT_REGION" = "us-east-1"
   "AWS_ACCOUNT_ID"     = "766334116490"
-  "IMAGE_REPO_NAME"    = "healthcheck"
+  "IMAGE_REPO_NAME"    = "lambda-ecr  "
   "IMAGE_TAG"          = "latest"
 }

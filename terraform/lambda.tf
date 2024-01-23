@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "profile_faker_function" {
-  function_name = "profile-faker-${var.env_name}"
+  function_name = var.lambda_name
   timeout       = var.lambda_timeout
   image_uri     = "${aws_ecr_repository.lambda_repo.repository_url}:${var.env_name}"
   package_type  = "Image"

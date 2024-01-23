@@ -41,3 +41,8 @@ variable "lambda_timeout" {
   type    = number
   default = 20
 }
+
+variable "lambda_name" {
+  type    = string
+  default = "healthcheck"
+}
