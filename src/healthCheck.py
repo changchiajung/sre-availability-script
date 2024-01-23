@@ -99,7 +99,7 @@ def main(args, logger):
         time.sleep(config['running_period'])
 
 
-if __name__ == "__main__":
+def handler():
     parser = argparse.ArgumentParser(
         prog='Health check tool',
         description='Check the health of different HTTP endpoints periodically.')
@@ -133,6 +133,12 @@ if __name__ == "__main__":
     logger.addHandler(handler_info)
     logger.addHandler(handler_debug)
     if args.ifasync:
+        logger.info(f"Running in Async mode...")
         asyncio.run(async_main(args, logger))
     else:
+        logger.info(f"Running in Sync mode...")
         main(args, logger)
+
+
+if __name__ == "__main__":
+    handler()
