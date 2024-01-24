@@ -129,7 +129,7 @@ def handler():
     handler_info.setFormatter(formatter)
 
     if not args.nodebug:
-        handler_debug = logging.FileHandler("debug.log")
+        handler_debug = logging.FileHandler("/tmp/debug.log")
         handler_debug.setLevel(logging.DEBUG)
         handler_debug.setFormatter(formatter)
         logger.addHandler(handler_debug)
