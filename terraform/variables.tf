@@ -51,3 +51,33 @@ variable "lambda_image_tag" {
   type    = string
   default = "latest"
 }
+
+variable "codepipeline_name" {
+  type    = string
+  default = "tf-healthcheck-service-pipeline"
+}
+
+variable "codepipeline_role_name" {
+  type    = string
+  default = "tf-CodepipelineRole"
+}
+
+variable "githubConnection_name" {
+  type    = string
+  default = "github-connection"
+}
+
+variable "codepipeline_repo_id" {
+  type    = string
+  default = "changchiajung/sre-availability-script"
+}
+
+variable "codepipeline_repo_branch" {
+  type    = string
+  default = "main"
+}
+
+variable "codepipeline_bucket_name" {
+  type    = string
+  default = "tf-healthcheck-service-s3"
+}
