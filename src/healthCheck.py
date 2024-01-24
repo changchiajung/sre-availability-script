@@ -110,6 +110,8 @@ def handler():
                         help='Configuration YAML file, including the running time period, acceptance criteria. Default as config.yaml')
     parser.add_argument('--outputfile', type=str, default='None',
                         help='The path of the output file. Default as stdout.')
+    parser.add_argument('--nodebug', action='store_true',
+                        help='Set True to deactivate output debug logging.')
     parser.add_argument('--ifasync', action='store_true',
                         help='Set True if run the script in async mode.')
     args = parser.parse_args()
@@ -126,12 +128,13 @@ def handler():
     handler_info.setLevel(logging.INFO)
     handler_info.setFormatter(formatter)
 
-    handler_debug = logging.FileHandler("debug.log")
-    handler_debug.setLevel(logging.DEBUG)
-    handler_debug.setFormatter(formatter)
+    if not args.nodebug:
+        handler_debug = logging.FileHandler("debug.log")
+        handler_debug.setLevel(logging.DEBUG)
+        handler_debug.setFormatter(formatter)
+        logger.addHandler(handler_debug)
 
     logger.addHandler(handler_info)
-    logger.addHandler(handler_debug)
     if args.ifasync:
         logger.info(f"Running in Async mode...")
         asyncio.run(async_main(args, logger))

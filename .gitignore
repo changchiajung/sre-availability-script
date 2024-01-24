@@ -115,3 +115,5 @@ dmypy.json
 terraform/.terraform/
 terraform/.terraform*
 terraform/terraform.tfstate*
+terraform/.DS_Store
+.DS_Store

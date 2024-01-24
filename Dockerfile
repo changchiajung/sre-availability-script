@@ -6,5 +6,5 @@ COPY src/ .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python3", "healthCheck.py", "--ifasync"]
+CMD ["python3", "healthCheck.py", "--ifasync", "--nodebug"]
 

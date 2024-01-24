@@ -46,3 +46,8 @@ variable "lambda_name" {
   type    = string
   default = "healthcheck"
 }
+
+variable "lambda_image_tag" {
+  type    = string
+  default = "latest"
+}
